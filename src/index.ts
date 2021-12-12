@@ -1,20 +1,27 @@
 import express from "express";
 import { DatabaseConnection } from "./module/database";
+import morgan from "morgan";
+import helmet from "helmet";
+// import { router } from "../api/controller/router";
+import { router } from "./api/router";
 
 /** Variables */
 const app: express.Application = express();
 
-// /** Global middleware */
-// app.use(morgan('combined'));
+// /**Middleware */
+app.use(morgan("common"));
 
-// app.use(bodyParser.json());
+app.use(helmet());
+
+app.use(express.json());
 
 // /** Routes */
-// app.use('/api', globalRouter)
+app.use("/nerdrideapi", router);
 
-/** Start our server */
+/** Start the server */
 DatabaseConnection.connect()
   .then(() => {
+    console.log("connected");
     app.listen(3000, () => {
       console.log(`Server is running on port ${3000}...`);
     });
