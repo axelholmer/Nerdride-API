@@ -10,9 +10,4 @@ export interface Ride {
   battery_level?: number;
   total_mileage?: number;
   temperature?: number;
-
-  // timestamps!
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
 }

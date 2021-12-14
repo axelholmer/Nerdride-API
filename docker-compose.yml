@@ -1,0 +1,13 @@
+version: '3'
+services:
+  nerdride-api:
+    image: nerdride
+    build: ./
+    environment:
+      - JWT_SECRET=secret
+      - DB_HOST=$DB_HOST
+      - DB_PASS=$DB_PASS
+      - DB_USER=$DB_USER
+      - DB_PORt=$DB_PORT
+    ports:
+      - '3000:3000'

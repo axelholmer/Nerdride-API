@@ -1,7 +1,6 @@
 import { Ride } from "../../interfaces";
-import { RideOutput } from "../../../db/models/Ride";
 
-export const toRide = (ride: RideOutput): Ride => {
+export const toRide = (ride: any): Ride => {
   return {
     ride_id: ride.ride_id,
     user_id: ride.user_id,
@@ -14,9 +13,5 @@ export const toRide = (ride: RideOutput): Ride => {
     battery_level: ride.battery_level,
     total_mileage: ride.total_mileage,
     temperature: ride.temperature,
-
-    createdAt: ride.createdAt,
-    updatedAt: ride.updatedAt,
-    deletedAt!: ride.deletedAt
   };
 };

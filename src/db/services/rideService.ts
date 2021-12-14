@@ -1,19 +1,15 @@
-import * as rideDal from '../dal/ride'
-import { GetAllRidesFilters } from "../dal/types"
-import { RideOutput } from '../models/Ride'
+import db from "../db";
 
-// export const create = (payload: IngredientInput): Promise<IngredientOuput> => {
-//     return ingredientDal.create(payload)
-// }
-// export const update = (id: number, payload: Partial<IngredientInput>): Promise<IngredientOuput> => {
-//     return ingredientDal.update(id, payload)
-// }
-export const getById = (user_id: string): Promise<RideOutput> => {
-    return rideDal.getById(user_id)
-}
-// export const deleteById = (id: number): Promise<boolean> => {
-//     return ingredientDal.deleteById(id)
-// }
-export const getAll = (filters: GetAllRidesFilters): Promise<RideOutput[]> => {
-    return rideDal.getAll(filters)
-}
+/**
+ *  Query DB for raw data of one particular ride
+ * @param ride_id 
+ * @returns Query results
+ */
+export const getById = async (ride_id: string): Promise<any[]> => {
+  const client = await db.connect();
+  const sql = "SELECT * FROM rides WHERE ride_id='" + ride_id + "';";
+  const { rows } = await client.query(sql);
+  console.log(rows);
+  client.release();
+  return rows;
+};

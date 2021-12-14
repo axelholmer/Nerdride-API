@@ -1,42 +1,31 @@
 import express from "express";
-import { DatabaseConnection } from "./module/database";
 import morgan from "morgan";
 import helmet from "helmet";
-// import { router } from "../api/controller/router";
+import { Authentication } from "./module/authentication";
 import { router } from "./api/router";
+import db from "./db/db";
+import jwt from "jsonwebtoken";
 
 /** Variables */
 const app: express.Application = express();
 
-// /**Middleware */
+/** Middleware */
 app.use(morgan("common"));
 
 app.use(helmet());
 
 app.use(express.json());
 
+app.use(Authentication.verifyAccess);
+
 // /** Routes */
 app.use("/nerdrideapi", router);
 
 /** Start the server */
-DatabaseConnection.connect()
-  .then(() => {
-    console.log("connected");
-    app.listen(3000, () => {
-      console.log(`Server is running on port ${3000}...`);
-    });
-  })
-  .catch((error: Error) => {
-    console.log(error);
+db.connect((err, client, done) => {
+  if (err) throw new Error(err.message);
+  console.log("Connected");
+  app.listen(3000, () => {
+    console.log(`Server is running on port ${3000}...`);
   });
-
-// /** Start our server */
-// DatabaseConnection.connect()
-//   .then(() => {
-// app.listen(process.env.API_PORT, () => {
-//   console.log(`Server is running on port ${process.env.API_PORT}...`);
-// });
-//   })
-//   .catch((error: Error) => {
-// console.log(error);
-//   });
+});
